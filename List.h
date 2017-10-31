@@ -6,8 +6,8 @@ class List
 {
 
 private:
-	Node<int> *head;
-	Node<int> *tail;
+	Node *head;
+	Node *tail;
 	int count;
 
 public:
@@ -21,5 +21,10 @@ public:
 	void clear();
 	void head_on_tail();
 	void remove(int elem);
+	int& operator[] (int i) const;
+	List operator+ (const List &vector) const;
+	List& operator= (const List &vector);
+	void operator+= (const List &vector);
+	void insert(int elem, int i);
 };
 

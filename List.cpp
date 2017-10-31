@@ -13,18 +13,33 @@ List::List()
 	count = 0;
 }
 
+List::~List()
+{
+	if (head == NULL)
+	{
+		return;
+	}
+	Node *ptr = head;
+	while (ptr != NULL)
+	{
+		head = head->next;
+		delete ptr;
+		ptr = head;
+	}
+	count = 0;
+}
 
 void List::pushBack(int _data_)
 {
 	if (head != NULL)
 	{
-		tail->next = new Node<int>(_data_);
+		tail->next = new Node (_data_);
 		tail = tail->next;
 		count++;
 	}
 	else
 	{
-		head = new Node<int>(_data_);
+		head = new Node (_data_);
 		tail = head;
 		count++;
 	}
@@ -32,7 +47,7 @@ void List::pushBack(int _data_)
 
 void List::print() const
 {
-	Node<int> *ptr = head;
+	Node *ptr = head;
 	if (ptr == NULL)
 	{
 		cout << "List is empty" << endl;
@@ -61,8 +76,8 @@ void List::pop()
 		return;
 	}
 
-	Node<int> *ptr= head;
-	Node<int> *temp = tail;
+	Node *ptr= head;
+	Node *temp = tail;
 
 	while (ptr != tail)
 	{
@@ -80,7 +95,6 @@ void List::pop()
 }
 
 
-
 void List::leftpop()
 {
 	if (head == NULL)
@@ -94,7 +108,7 @@ void List::leftpop()
 		return;
 	}
 
-	Node<int> *temp = head;
+	Node *temp = head;
 	head = head->next;
 	delete temp;
 	count--;
@@ -127,8 +141,8 @@ void List::clear()
 
 void List::remove(int elem)
 {
-	Node<int> *ptr = head;
-	Node<int> *temp = head;
+	Node *ptr = head;
+	Node *temp = head;
 
 	if (ptr == NULL)
 		return;
@@ -167,18 +181,73 @@ void List::remove(int elem)
 	}
 }
 
-List::~List()
+int&  List::operator[] (int i) const
 {
-	if (head == NULL)
+	int z = -1;
+	if ((i >= count)||(i<0)) return z;
+
+	Node *ptr = head;
+	for (int j = 0; j < i; j++)
+		ptr = ptr->next;
+	
+	return  ptr->data;
+}
+
+
+List List::operator+ (const List &vector) const
+{
+	List res(*this);
+
+
+	if (vector.head != NULL)
+		for (int i = 0; i < vector.size(); i++) 
+			res.pushBack(vector[i]);
+	
+
+	return res;
+}
+
+void List::operator+= (const List &vector)
+{
+	
+	if (vector.head != NULL)
+		for (int i = 0; i < vector.size(); i++)
+			pushBack(vector[i]);
+
+}
+
+
+List& List::operator= (const List &vector)
+{
+	clear();
+	if (vector.head != NULL)
+		for (int i = 0; i < vector.size(); i++)
+			pushBack(vector[i]);
+
+	return *this;
+}
+
+void List::insert(int elem, int i)
+{
+	if (i>=count) pushBack(elem);
+	else
 	{
-		return;
+		if (head != NULL)
+		{
+
+			Node *ptr = head;
+			for (int j = 0; j < i; j++) ptr = ptr->next;
+
+			Node *temp = ptr->next;
+
+			ptr->next = new Node(elem);
+			ptr->next->next = temp;
+			count++;
+		}
+		else
+		{
+			pushBack(elem);
+		}
 	}
-	Node<int> *ptr = head;
-	while (ptr != NULL)
-	{
-		head = head->next;
-		delete ptr;
-		ptr = head;
-	}
-	count = 0;
+	
 }
