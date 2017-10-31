@@ -10,6 +10,8 @@ private:
 	Node *tail;
 	int count;
 
+	void QuickSort(long b, long e);
+
 public:
 	List();
 	~List();
@@ -26,5 +28,7 @@ public:
 	List& operator= (const List &vector);
 	void operator+= (const List &vector);
 	void insert(int elem, int i);
+	void reverse();
+	void sort();
 };
 

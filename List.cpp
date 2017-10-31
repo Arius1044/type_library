@@ -251,3 +251,30 @@ void List::insert(int elem, int i)
 	}
 	
 }
+
+void List::reverse()
+{
+	for (int i = 0; i < count/2; i++)
+	{
+		swap((*this)[i],(*this)[count-i-1]);
+	}
+}
+
+void List::sort()
+{
+	QuickSort(0, count - 1);
+}
+
+void List::QuickSort(long b, long e)
+{
+	long left = b, right = e, m = (*this)[int((right + left) / 2)];
+
+	while (left <= right)
+	{
+		while ((*this)[left] < m) left++;
+		while ((*this)[right] > m) right--;
+		if (left <= right) swap((*this)[left++], (*this)[right--]);
+	}
+	if (left < e) QuickSort(left, e);
+	if (right > b) QuickSort(b, right);
+}
