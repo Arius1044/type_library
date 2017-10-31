@@ -20,5 +20,6 @@ public:
 	int size() const;
 	void clear();
 	void head_on_tail();
+	void remove(int elem);
 };
 

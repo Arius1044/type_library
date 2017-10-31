@@ -57,6 +57,7 @@ void List::pop()
 		delete head;
 		tail = NULL;
 		head = NULL;
+		count--;
 		return;
 	}
 
@@ -89,6 +90,7 @@ void List::leftpop()
 		delete head;
 		tail = NULL;
 		head = NULL;
+		count--;
 		return;
 	}
 
@@ -123,6 +125,47 @@ void List::clear()
 	count = 0;
 }
 
+void List::remove(int elem)
+{
+	Node<int> *ptr = head;
+	Node<int> *temp = head;
+
+	if (ptr == NULL)
+		return;
+	else if ((head->data == elem)&&(tail == head))
+	{
+		delete ptr, head;
+		tail = NULL;
+		head = NULL;
+		count--;
+		return;
+	}
+	else if (head->data == elem)
+	{
+		leftpop();
+		return;
+	}
+	else
+	{
+		while ((ptr!=NULL)&&(ptr->data != elem))
+		{
+			temp = ptr;
+			ptr = ptr->next;
+
+		}
+		if (ptr == NULL)
+		{
+			return;
+		}
+		else if ((ptr->data == elem) || (ptr->next == NULL)) pop();
+		else
+		{
+			temp->next = ptr->next;
+			delete ptr;
+			count--;
+		}
+	}
+}
 
 List::~List()
 {
