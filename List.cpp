@@ -94,7 +94,6 @@ void List::pop()
 	count--;
 }
 
-
 void List::leftpop()
 {
 	if (head == NULL)
@@ -146,14 +145,6 @@ void List::remove(int elem)
 
 	if (ptr == NULL)
 		return;
-	else if ((head->data == elem)&&(tail == head))
-	{
-		delete ptr, head;
-		tail = NULL;
-		head = NULL;
-		count--;
-		return;
-	}
 	else if (head->data == elem)
 	{
 		leftpop();
@@ -161,17 +152,20 @@ void List::remove(int elem)
 	}
 	else
 	{
-		while ((ptr!=NULL)&&(ptr->data != elem))
+		int counter = 0;
+		while (ptr->data != elem)
 		{
 			temp = ptr;
 			ptr = ptr->next;
+			counter++;
+			if (counter == count)
+			{
+				return;
+			}
+		}
 
-		}
-		if (ptr == NULL)
-		{
-			return;
-		}
-		else if ((ptr->data == elem) || (ptr->next == NULL)) pop();
+		
+		if ((ptr == tail) || (ptr->next == NULL)) pop();
 		else
 		{
 			temp->next = ptr->next;
@@ -215,7 +209,6 @@ void List::operator+= (const List &vector)
 			pushBack(vector[i]);
 
 }
-
 
 List& List::operator= (const List &vector)
 {

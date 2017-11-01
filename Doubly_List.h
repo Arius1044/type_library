@@ -7,9 +7,12 @@ class D_List
 {
 
 private:
-	Node *head;
-	Node *tail;
+	D_Node *head;
+	D_Node *tail;
 	int count;
+
+
+	void QuickSort(long b, long e);
 
 public:
 	D_List();
@@ -20,5 +23,14 @@ public:
 	void leftpop();
 	int size() const;
 	void clear();
+	void head_on_tail();
+	void remove(int elem);
+	int& operator[] (int i) const;
+	D_List operator+ (const D_List &vector) const;
+	D_List& operator= (const D_List &vector);
+	void operator+= (const D_List &vector);
+	void insert(int elem, int i);
+	void reverse();
+	void sort();
 };
 

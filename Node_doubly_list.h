@@ -1,7 +1,13 @@
 #pragma once
 #include <iostream>
-struct Node
+struct D_Node
 {
 	int data;
-	Node *next, *prev;
+	D_Node *next, *prev;
+
+	D_Node(int _data_)
+	{
+		data = _data_;
+		next = NULL;
+	}
 };
