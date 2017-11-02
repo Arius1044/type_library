@@ -1,6 +1,8 @@
 #include "List.h"
 #include "List.cpp"
 #include "Doubly_List.h"
+#include "Doubly_List.cpp"
+
 #include <iostream>
 
 
@@ -8,7 +10,7 @@ using namespace std;
 
 int main()
 {
-	List<char> l, l1;
+	D_List<char> l, l1;
 
 	l.pushBack('a');
 	l.pushBack('2');
@@ -70,6 +72,7 @@ int main()
 	cout << endl;
 	l.print();
 	cout << endl <<"size of l: "<< l.size()<<endl<<endl;
+	cout << endl << "l[-5]: " << l[-5] << endl << endl;
 	system("pause");
 	return 0;
 }
