@@ -1,11 +1,12 @@
-#pragma once
 #include <iostream>
+template <typename Type>
+
 struct D_Node
 {
-	int data;
+	Type data;
 	D_Node *next, *prev;
 
-	D_Node(int _data_)
+	D_Node(Type _data_)
 	{
 		data = _data_;
 		next = NULL;

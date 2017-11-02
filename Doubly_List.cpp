@@ -1,26 +1,26 @@
 #include "Doubly_List.h"
-#include "Node_doubly_list.h"
 #include <iostream>
+
 
 
 using namespace std;
 
-
-D_List::D_List()
+template<class Type>
+D_List<Type>::D_List()
 {
 	head = NULL;
 	tail = NULL;
 	count = 0;
 }
 
-
-D_List::~D_List()
+template<class Type>
+D_List<Type>::~D_List()
 {
 	if (head == NULL)
 	{
 		return;
 	}
-	D_Node *ptr = head;
+	D_Node<Type> *ptr = head;
 	while (ptr != NULL)
 	{
 		head = head->next;
@@ -31,9 +31,10 @@ D_List::~D_List()
 
 }
 
-void D_List::pushBack(int _data_)
+template<class Type>
+void D_List<Type>::pushBack(Type _data_)
 {
-	D_Node *temp = new D_Node(_data_);
+	D_Node<Type> *temp = new D_Node<Type>(_data_);
 
 	if (head != NULL)
 	{
@@ -51,9 +52,10 @@ void D_List::pushBack(int _data_)
 
 }
 
-void D_List::print() const
+template<class Type>
+void D_List<Type>::print() const
 {
-	D_Node *ptr = head;
+	D_Node<Type> *ptr = head;
 	if (ptr == NULL)
 	{
 		cout << "List is empty" << endl;
@@ -67,7 +69,8 @@ void D_List::print() const
 	}
 }
 
-void D_List::pop()
+template<class Type>
+void D_List<Type>::pop()
 {
 	if (head == NULL)
 		return;
@@ -80,25 +83,15 @@ void D_List::pop()
 		return;
 	}
 
-	D_Node *ptr = head;
-	D_Node *temp = tail;
-
-	while (ptr != tail)
-	{
-		temp = ptr;
-		ptr = ptr->next;
-	}
-
-
-
-	tail = temp;
-	delete ptr;
+	D_Node<Type> *temp = tail;
+	tail = temp->prev;
 	tail->next = NULL;
-
+	delete temp ;
 	count--;
 }
 
-void D_List::leftpop()
+template<class Type>
+void D_List<Type>::leftpop()
 {
 	if (head == NULL)
 		return;
@@ -112,35 +105,39 @@ void D_List::leftpop()
 		return;
 	}
 
-	D_Node *temp = head;
+	D_Node<Type> *temp = head;
 	head = head->next;
 	delete temp;
 	count--;
 }
 
-int D_List::size() const
+template<class Type>
+int D_List<Type>::size() const
 {
 	return count;
 }
 
-void D_List::clear()
+template<class Type>
+void D_List<Type>::clear()
 {
 	while (head != NULL)
 		pop();
 	count = 0;
 }
 
-void D_List::head_on_tail()
+template<class Type>
+void D_List<Type>::head_on_tail()
 {
 	if (head == NULL || head == tail) return;
 
 	swap(head->data, tail->data);
 }
 
-void D_List::remove(int elem)
+template<class Type>
+void D_List<Type>::remove(Type elem)
 {
-	D_Node *ptr = head;
-	D_Node *temp = head;
+	D_Node<Type> *ptr = head;
+	D_Node<Type> *temp = head;
 
 	if (ptr == NULL)
 		return;
@@ -173,19 +170,32 @@ void D_List::remove(int elem)
 	}
 }
 
-int&  D_List::operator[] (int i) const
+template<class Type>
+Type&  D_List<Type>::operator[] (int i) const
 {
-	int z = -1;
-	if ((i >= count) || (i<0)) return z;
+	Type z = NULL;
+	if ((i >= count) || (i<=-count)) return z;
 
-	D_Node *ptr = head;
-	for (int j = 0; j < i; j++)
-		ptr = ptr->next;
-
-	return  ptr->data;
+	D_Node<Type> *ptr = head;
+	D_Node<Type> *ptr2 = tail;
+	if (i >= 0)
+	{
+		for (int j = 0; j < i; j++)
+			ptr = ptr->next;
+		return  ptr->data;
+	}
+	else
+	{
+		i *= -1;
+		for (int j = i-2; j >= 0; j--)
+			ptr2 = ptr2->prev;
+		return  ptr2->data;
+	}
+	
 }
 
-D_List D_List::operator+ (const D_List &vector) const
+template<class Type>
+D_List<Type> D_List<Type>::operator+ (const D_List &vector)
 {
 	D_List res(*this);
 
@@ -198,7 +208,8 @@ D_List D_List::operator+ (const D_List &vector) const
 	return res;
 }
 
-void D_List::operator+= (const D_List &vector)
+template<class Type>
+void D_List<Type>::operator+= (const D_List &vector)
 {
 
 	if (vector.head != NULL)
@@ -207,7 +218,8 @@ void D_List::operator+= (const D_List &vector)
 
 }
 
-D_List& D_List::operator= (const D_List &vector)
+template<class Type>
+D_List<Type>& D_List<Type>::operator= (const D_List &vector)
 {
 	clear();
 	if (vector.head != NULL)
@@ -217,7 +229,8 @@ D_List& D_List::operator= (const D_List &vector)
 	return *this;
 }
 
-void D_List::insert(int elem, int i)
+template<class Type>
+void D_List<Type>::insert(Type elem, int i)
 {
 	if (i >= count) pushBack(elem);
 	else
@@ -225,12 +238,12 @@ void D_List::insert(int elem, int i)
 		if (head != NULL)
 		{
 
-			D_Node *ptr = head;
+			D_Node<Type> *ptr = head;
 			for (int j = 0; j < i; j++) ptr = ptr->next;
 
-			D_Node *temp = ptr->next;
+			D_Node<Type> *temp = ptr->next;
 
-			ptr->next = new D_Node(elem);
+			ptr->next = new D_Node<Type>(elem);
 			ptr->next->next = temp;
 			ptr->next->prev = temp->prev;
 			count++;
@@ -243,7 +256,8 @@ void D_List::insert(int elem, int i)
 
 }
 
-void D_List::reverse()
+template<class Type>
+void D_List<Type>::reverse()
 {
 	for (int i = 0; i < count / 2; i++)
 	{
@@ -251,12 +265,14 @@ void D_List::reverse()
 	}
 }
 
-void D_List::sort()
+template<class Type>
+void D_List<Type>::sort()
 {
 	QuickSort(0, count - 1);
 }
 
-void D_List::QuickSort(long b, long e)
+template<class Type>
+void D_List<Type>::QuickSort(long b, long e)
 {
 	long left = b, right = e, m = (*this)[int((right + left) / 2)];
 
