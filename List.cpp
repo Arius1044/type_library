@@ -1,25 +1,25 @@
 #include "List.h"
-#include "Node_list.h"
 #include <iostream>
 
 
 using namespace std;
 
-
-List::List()
+template<class Type>
+List<Type>::List()
 {
 	head = NULL;
 	tail = NULL;
 	count = 0;
 }
 
-List::~List()
+template<class Type>
+List<Type>::~List()
 {
 	if (head == NULL)
 	{
 		return;
 	}
-	Node *ptr = head;
+	Node<Type> *ptr = head;
 	while (ptr != NULL)
 	{
 		head = head->next;
@@ -29,25 +29,27 @@ List::~List()
 	count = 0;
 }
 
-void List::pushBack(int _data_)
+template<class Type>
+void List<Type>::pushBack(Type _data_)
 {
 	if (head != NULL)
 	{
-		tail->next = new Node (_data_);
+		tail->next = new Node<Type>(_data_);
 		tail = tail->next;
 		count++;
 	}
 	else
 	{
-		head = new Node (_data_);
+		head = new Node<Type>(_data_);
 		tail = head;
 		count++;
 	}
 }
 
-void List::print() const
+template<class Type>
+void List<Type>::print() const
 {
-	Node *ptr = head;
+	Node<Type> *ptr = head;
 	if (ptr == NULL)
 	{
 		cout << "List is empty" << endl;
@@ -63,7 +65,8 @@ void List::print() const
 
 }
 
-void List::pop()
+template<class Type>
+void  List<Type>::pop()
 {
 	if (head == NULL)
 		return;
@@ -76,8 +79,8 @@ void List::pop()
 		return;
 	}
 
-	Node *ptr= head;
-	Node *temp = tail;
+	Node<Type> *ptr= head;
+	Node<Type> *temp = tail;
 
 	while (ptr != tail)
 	{
@@ -94,7 +97,8 @@ void List::pop()
 	count--;
 }
 
-void List::leftpop()
+template<class Type>
+void List<Type>::leftpop()
 {
 	if (head == NULL)
 		return;
@@ -107,19 +111,21 @@ void List::leftpop()
 		return;
 	}
 
-	Node *temp = head;
+	Node<Type> *temp = head;
 	head = head->next;
 	delete temp;
 	count--;
 
 }
 
-int List::size() const
+template<class Type>
+int List<Type>::size() const
 {
 	return count;
 }
 
-void List::head_on_tail()
+template<class Type>
+void List<Type>::head_on_tail()
 {
 	if (head == NULL || head == tail) return;
 
@@ -128,7 +134,8 @@ void List::head_on_tail()
 
 }
 
-void List::clear()
+template<class Type>
+void List<Type>::clear()
 {
 
 	while (head != NULL)
@@ -138,10 +145,11 @@ void List::clear()
 	count = 0;
 }
 
-void List::remove(int elem)
+template<class Type>
+void List<Type>::remove(Type elem)
 {
-	Node *ptr = head;
-	Node *temp = head;
+	Node<Type> *ptr = head;
+	Node<Type> *temp = head;
 
 	if (ptr == NULL)
 		return;
@@ -175,20 +183,21 @@ void List::remove(int elem)
 	}
 }
 
-int&  List::operator[] (int i) const
+template<class Type>
+Type&  List<Type>::operator[] (int i) const
 {
-	int z = -1;
+	Type z = NULL;
 	if ((i >= count)||(i<0)) return z;
 
-	Node *ptr = head;
+	Node<Type> *ptr = head;
 	for (int j = 0; j < i; j++)
 		ptr = ptr->next;
 	
 	return  ptr->data;
 }
 
-
-List List::operator+ (const List &vector) const
+template<class Type>
+List<Type> List<Type>::operator+ (const List &vector) const
 {
 	List res(*this);
 
@@ -201,7 +210,8 @@ List List::operator+ (const List &vector) const
 	return res;
 }
 
-void List::operator+= (const List &vector)
+template<class Type>
+void List<Type>::operator+= (const List &vector)
 {
 	
 	if (vector.head != NULL)
@@ -210,7 +220,8 @@ void List::operator+= (const List &vector)
 
 }
 
-List& List::operator= (const List &vector)
+template<class Type>
+List<Type>& List<Type>::operator= (const List &vector)
 {
 	clear();
 	if (vector.head != NULL)
@@ -220,7 +231,8 @@ List& List::operator= (const List &vector)
 	return *this;
 }
 
-void List::insert(int elem, int i)
+template<class Type>
+void List<Type>::insert(Type elem, int i)
 {
 	if (i>=count) pushBack(elem);
 	else
@@ -228,12 +240,12 @@ void List::insert(int elem, int i)
 		if (head != NULL)
 		{
 
-			Node *ptr = head;
+			Node<Type> *ptr = head;
 			for (int j = 0; j < i; j++) ptr = ptr->next;
 
-			Node *temp = ptr->next;
+			Node<Type> *temp = ptr->next;
 
-			ptr->next = new Node(elem);
+			ptr->next = new Node<Type>(elem);
 			ptr->next->next = temp;
 			count++;
 		}
@@ -245,7 +257,8 @@ void List::insert(int elem, int i)
 	
 }
 
-void List::reverse()
+template<class Type>
+void List<Type>::reverse()
 {
 	for (int i = 0; i < count/2; i++)
 	{
@@ -253,12 +266,14 @@ void List::reverse()
 	}
 }
 
-void List::sort()
+template<class Type>
+void List<Type>::sort()
 {
 	QuickSort(0, count - 1);
 }
 
-void List::QuickSort(long b, long e)
+template<class Type>
+void List<Type>::QuickSort(long b, long e)
 {
 	long left = b, right = e, m = (*this)[int((right + left) / 2)];
 

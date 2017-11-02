@@ -1,16 +1,15 @@
-#pragma once
 #include <iostream>
-
-
+template <typename Type>
 struct Node
 {
 
-	int data;
+	Type data;
 	Node *next;
 
-	Node(int _data_)
+	Node(Type _data_)
 	{
 		data = _data_;
 		next = NULL;
 	}
 };
+
